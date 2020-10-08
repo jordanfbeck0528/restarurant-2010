@@ -2,21 +2,17 @@
 
 class Restaurant
 
-    attr_reader :opening_time, :name
+  attr_reader :opening_time, :name, :dishes
   def initialize(opening_time, name)
     @opening_time = opening_time
     @name = name
     @dishes = []
-
   end
 
-  def dishes
-    @dishes
+  def closing_time(time)
+    # @opening_time + time.to_s
+    (@opening_time[0..1].to_i + time).to_s + ":00"
   end
-
-  # def closing_time(time)
-  #   @opening_time += time.to_s
-  # end
 
   def add_dish(dish)
     @dishes << dish
