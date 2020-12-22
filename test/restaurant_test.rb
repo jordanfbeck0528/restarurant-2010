@@ -1,79 +1,30 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/restaurant'
-require "pry"
-
 class RestaurantTest < Minitest::Test
-  # Iteration 1 Tests:
-  def test_it_exists
-    restaurant = Restaurant.new('10:00', 'Fuel Cafe')
 
-    assert_instance_of Restaurant, restaurant
+  def setup
+    @restaurant1 = Restaurant.new('10:00', 'Fuel Cafe')
+    @restaurant2 = Restaurant.new('16:00', 'Il Poggio')
   end
 
-  def test_it_has_opening_time
-    # skip
-    restaurant = Restaurant.new('10:00', 'Fuel Cafe')
-
-    assert_equal '10:00', restaurant.opening_time
+  def test_it_exists_and_has_attributes
+    assert_instance_of Restaurant, @restaurant1
+    assert_equal "10:00", @restaurant1.opening_time
+    assert_equal "Fuel Cafe", @restaurant1.name
+    assert_equal [], @restaurant1.dishes
   end
 
-  def test_it_has_name
-    # skip
-    restaurant = Restaurant.new('10:00', 'Fuel Cafe')
-
-    assert_equal 'Fuel Cafe', restaurant.name
+  def test_closing_time
+    assert_equal "18:00", @restaurant1.closing_time(8)
+    assert_equal "23:00", @restaurant2.closing_time(7)
   end
 
-  def test_it_has_dishes
-    # skip
-    restaurant = Restaurant.new('10:00', 'Fuel Cafe')
+  def test_add_dishes
+    @restaurant2.add_dish('Burrata')
+    @restaurant2.add_dish('Pizzetta')
+    @restaurant2.add_dish('Ravioli')
 
-    assert_equal [], restaurant.dishes
+    assert_equal ["Burrata", "Pizzetta", "Ravioli"], @restaurant2.dishes
   end
-
-  #Iteration 2 Tests:
-  def test_it_has_closing_time
-    # skip
-    restaurant1 = Restaurant.new('10:00', 'Fuel Cafe')
-    restaurant2 = Restaurant.new('16:00', 'Il Poggio')
-
-    assert_equal '18:00', restaurant1.closing_time(8)
-    assert_equal '23:00', restaurant2.closing_time(7)
-  end
-
-  def test_it_can_add_dishes
-    # skip
-    restaurant = Restaurant.new('16:00', 'Il Poggio')
-
-    restaurant.add_dish('Burrata')
-    restaurant.add_dish('Pizzetta')
-    restaurant.add_dish('Ravioli')
-
-    assert_equal ['Burrata', 'Pizzetta', 'Ravioli'], restaurant.dishes
-  end
-
-  def test_is_opening_for_lunch
-    restaurant1 = Restaurant.new('10:00', 'Fuel Cafe')
-    restaurant2 = Restaurant.new('16:00', 'Il Posto')
-
-    assert_equal true, restaurant1.open_for_lunch?
-    assert_equal false, restaurant2.open_for_lunch?
-
-  end
-
-  def test_it_can_caps_all_dish_names
-    restaurant2 = Restaurant.new('16:00', 'Il Posto')
-
-    restaurant2.add_dish('Burrata')
-    restaurant2.add_dish('Pizzetta')
-    restaurant2.add_dish('Ravioli')
-    restaurant2.menu_dish_names
-
-    expected = ["BURRATA", "PIZZETTA", "RAVIOLI"]
-
-    assert_equal expected, restaurant2.menu_dish_names
-
-  end
-
 end
